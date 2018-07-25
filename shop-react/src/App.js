@@ -12,22 +12,19 @@ class App extends Component {
  
 
   render() {
-    let routes=(
-      <Switch>
-        {/* <Route path="/Product" component={ProductContainer} /> */}
-        <Route path="/ShoppingCart" component ={ShoppingCart} />
-        <Route path="/" component={ProductContainer} />
-        <Redirect to='/' />
-      </Switch>
-    )
+    
     return (
       <div className="App">
          <LayoutCustom>
-            {routes}
+         <Switch>
+            <Route path="/ShoppingCart" component ={ShoppingCart} />
+            <Route path="/" exact component={ProductContainer} />
+            <Redirect to="/"/>
+        </Switch>
           </LayoutCustom>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

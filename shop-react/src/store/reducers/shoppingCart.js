@@ -11,7 +11,8 @@ const reducer = (state = initState, action) => {
         case actionTypes.SHOPPINGCART_ADD:
             const newShoppingCart = {
                 ...action.shoppingCart,
-                id: action.id
+                id: action.id,
+                key:action.key
             }
             return {
                 ...state,
@@ -41,7 +42,8 @@ const reducer = (state = initState, action) => {
                 }, 0)
             }
         case actionTypes.SHOPPINGCART_DELETE:
-            const shoppingCartsNew = [...state.shoppingCarts].splice(action.id, 1);
+            const shoppingCartsNew = [...state.shoppingCarts];
+            shoppingCartsNew.splice(action.id, 1);
             return {
                 ...state,
                 products: action.products,

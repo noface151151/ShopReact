@@ -6,7 +6,8 @@ export const ShoppingCart_Add = (shoppingCart,id) => {
     return {
         type: actionTypes.SHOPPINGCART_ADD,
         shoppingCart: shoppingCart,
-        id:id
+        id:id,
+        key:id
     }
 }
 

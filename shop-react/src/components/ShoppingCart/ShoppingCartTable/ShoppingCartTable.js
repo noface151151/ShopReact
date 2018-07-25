@@ -1,11 +1,197 @@
 import React,{Component} from 'react';
+import { Table, Input,InputNumber, Button, Popconfirm, Form } from 'antd';
+import  './ShoppingCartTable.css';
+
+const FormItem = Form.Item;
+const EditableContext = React.createContext();
+const EditableRow = ({ form, index, ...props }) => (
+    <EditableContext.Provider value={form}>
+      <tr {...props} />
+    </EditableContext.Provider>
+  );
+
+  const EditableFormRow = Form.create()(EditableRow);
+
+class EditableCell  extends Component{
+    
+        state = {
+          editing: false,
+        }
+    
+        componentDidMount() {
+          if (this.props.editable) {
+            document.addEventListener('click', this.handleClickOutside, true);
+          }
+        }
+    
+        componentWillUnmount() {
+          if (this.props.editable) {
+            document.removeEventListener('click', this.handleClickOutside, true);
+          }
+        }
+      
+        toggleEdit = () => {
+          const editing = !this.state.editing;
+          this.setState({ editing }, () => {
+            if (editing) {
+              this.input.focus();
+            }
+          });
+        }
+    
+        handleClickOutside = (e) => {
+          const { editing } = this.state;
+          if (editing && this.cell !== e.target && !this.cell.contains(e.target)) {
+            this.save();
+          }
+        }
+      
+        save = () => {
+          const { record, handleSave } = this.props;
+          this.form.validateFields((error, values) => {
+            if (error) {
+              return;
+            }
+            this.toggleEdit();
+            handleSave({ ...record, ...values });
+          });
+        }
+        getInput = () => {
+          if (this.props.inputType === 'number') {
+            return <InputNumber 
+                      ref={node => (this.input = node)} 
+                      onPressEnter={this.save}/>;
+          }
+          return <Input 
+                     ref={node => (this.input = node)}
+                      onPressEnter={this.save}/>;
+        };
+        render(){
+          const { editing } = this.state;
+          const {
+            editable,
+            dataIndex,
+            title,
+            record,
+            index,
+            handleSave,
+            inputType,
+            ...restProps
+          }= this.props;
+    
+          return (
+            <td ref={node => (this.cell = node)} {...restProps}>
+              {editable ? (
+                <EditableContext.Consumer>
+                  {(form) => {
+                    this.form = form;
+                    return (
+                      editing ? (
+                        <FormItem style={{ margin: 0 }}>
+                          {form.getFieldDecorator(dataIndex, {
+                            rules: [{
+                              required: true,
+                              message: `${title} is required.`,
+                            }],
+                            initialValue: record[dataIndex],
+                          })(this.getInput())}
+                        </FormItem>
+                      ) : (
+                        <div
+                          className="editable-cell-value-wrap"
+                          style={{ paddingRight: 24 }}
+                          onClick={this.toggleEdit}
+                        >
+                          {restProps.children}
+                        </div>
+                      )
+                    );
+                  }}
+                </EditableContext.Consumer>
+              ) : restProps.children}
+            </td>
+          );
+        }
+    
+    }
+    
 
 class ShoppingCartTable extends Component{
 
-    
+    handleSave = (row) => {
+        this.props.updateQuantity(row.quantity,row.id);
+    }
+
+    handleDelete = (row) => {
+      this.props.deleteShoppingCart(row.id);
+    }
+
     render(){
+       const columnsInit =[{
+            title: 'Product',
+            dataIndex: 'name',
+        },{
+            title:'Image',
+            dataIndex: 'image',
+            align:'center',
+            render:(text,row,index)=><img src={text} style={{maxHeight:'100px',maxWidth:'100px'}} />
+        },{
+            title:'Quantity',
+            dataIndex:'quantity',
+            editable: true,
+        },{
+            title:'Price',
+            dataIndex:'price',
+        },{
+            title:'Total Amount',
+            dataIndex:'totalPrice',
+        },{
+          title: '',
+          dataIndex: 'operation',
+          render: (text, record) => {
+            return (
+              this.props.datasource.length  > 0
+                ? (
+                  <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
+                    <a href="javascript:;">Delete</a>
+                  </Popconfirm>
+                ) : null
+            );
+          },
+        }];
+        const components = {
+            body: {
+              row: EditableFormRow,
+              cell: EditableCell,
+            },
+          };
+        
+        const columns = columnsInit.map((col) => {
+            if (!col.editable) {
+              return col;
+            }
+            return {
+              ...col,
+                onCell: record => ({
+                record,
+                editable: col.editable,
+                dataIndex: col.dataIndex,
+                title: col.title,
+                handleSave:  this.handleSave,
+                inputType: col.dataIndex === 'quantity' ? 'number' : 'text',
+              }),
+            };
+          });
         return(
-            <div></div>
+            <Table
+                components={components}
+                rowClassName={() => 'editable-row'}
+                bordered
+                dataSource={this.props.datasource}
+                columns={columns}
+                title={() => 'Your Shopping Cart'}
+                footer={() => <div>Total: {this.props.totalPrice}</div>}
+            />
         )
     }
 }

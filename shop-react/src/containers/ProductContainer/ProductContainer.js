@@ -14,13 +14,10 @@ class ProductContainer extends Component{
      }
 
      AddShoppingCart=(product)=>{
-        console.log(product.id)
-        console.log(this.props.shoppingCarts)
          if(product){
             const checkShoppingCart=this.props.shoppingCarts.find(shoppingCart=>{
                 return shoppingCart.productId===product.id;
             })
-            console.log(checkShoppingCart)
             if(checkShoppingCart){
                 this.props.onUpdateShoppingCart(checkShoppingCart.quantity+1,checkShoppingCart.totalPrice+product.price,checkShoppingCart.id) ;   
             }else{

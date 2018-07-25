@@ -10,12 +10,16 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import productReducer from './store/reducers/product';
 import shoppingCartReducer from './store/reducers/shoppingCart';
+import orderReducer from './store/reducers/orders';
+import headerItemReducer from './store/reducers/headerItem';
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 const rootReducer=combineReducers({
     product:productReducer,
-    shoppingCart:shoppingCartReducer
+    shoppingCart:shoppingCartReducer,
+    order:orderReducer,
+    headerItem:headerItemReducer
 })
 
 const store=createStore(rootReducer,composeEnhancers(
@@ -25,7 +29,7 @@ const store=createStore(rootReducer,composeEnhancers(
 const app=(
     <Provider store={store}>
          <BrowserRouter>
-         <App />
+            <App />
          </BrowserRouter>
     </Provider>
 )

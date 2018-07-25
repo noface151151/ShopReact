@@ -1,12 +1,14 @@
 import React,{Component} from 'react';
 import { Badge, Icon,Button } from 'antd';
+import {connect} from 'react-redux';
+
 
 class ShoppingCartIcon extends Component{
 
     render(){
         return(
             <div>
-                <Badge style={{ backgroundColor: '#52c41a' }} count={5}>
+                <Badge style={{ backgroundColor: '#52c41a' }} count={this.props.totalQuantityShoppingCart}>
                     <Button type="primary" shape="circle" icon="shopping-cart" />
                 </Badge>
           </div>
@@ -14,4 +16,9 @@ class ShoppingCartIcon extends Component{
     }
 }
 
-export default ShoppingCartIcon;
+const mapStateToProps=state=>{
+    return{
+        totalQuantityShoppingCart:state.shoppingCart.totalQuantity
+    }
+}
+export default connect(mapStateToProps,null)(ShoppingCartIcon);
