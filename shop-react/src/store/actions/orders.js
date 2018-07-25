@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import * as action from './index';
 import axios from '../../axios-order';
 
 export const Order_Add_Start=()=>{
@@ -25,6 +26,7 @@ export const Order_Add=(orderData)=>{
         axios.post('/orders.json',orderData)
             .then(resp=>{
                 dispatch(Order_Add_Success());
+                dispatch(action.ShoppingCart_DeleteAll());
             })
             .catch(err=>{
                 dispatch(Order_Add_Fail(err))

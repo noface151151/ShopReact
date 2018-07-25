@@ -59,6 +59,14 @@ const reducer = (state = initState, action) => {
                     return sum + el;
                 }, 0)
             }
+        case actionTypes.SHOPPINGCART_DELETE_ALL:          
+            return {
+                ...state,
+                products: action.products,
+                shoppingCarts: [],
+                totalPrice: 0,
+                totalQuantity: 0
+            }
         default:
             return state;
     }

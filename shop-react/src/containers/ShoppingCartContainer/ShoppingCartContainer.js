@@ -1,11 +1,8 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import { Spin,Button } from 'antd';
-import  {Redirect} from 'react-router-dom'
-
 import ShoppingCartTable from '../../components/ShoppingCart/ShoppingCartTable/ShoppingCartTable';
 import * as action from '../../store/actions/index';
-import HeaderEnum from '../../shared/HeaderEnum';
 class ShoppingCartContainer extends Component{
 
     updateQuantity=(quantity,id)=>{
@@ -31,26 +28,25 @@ class ShoppingCartContainer extends Component{
 
     }
     render(){
-        let authRedirect= null;
-        if(this.props.isComplete && !this.props.loading ){
-            this.props.onSetSelectedItem(HeaderEnum['home']);
-            authRedirect=<Redirect to="/"/>
-        }
+        // let authRedirect= null;
+        // if(this.props.isComplete && !this.props.loading ){
+        //    // this.props.onSetSelectedItem(HeaderEnum['home']);
+        //     authRedirect=<Redirect to="/"/>
+        // }
         
         return(
             <div>
-                {authRedirect}
+              
                 <Spin spinning={this.props.loading}> </Spin>
                 <ShoppingCartTable 
                     updateQuantity={(quantity,id)=>this.updateQuantity(quantity,id)} 
                     deleteShoppingCart={(id)=>this.deleteShoppingCart(id)}
+                    addOrder = {()=>this.addOrder()}
                     datasource={this.props.shoppingCarts} 
                     totalPrice={this.props.totalPrice}
                     totalQuantity={this.props.totalQuantity}/>
                 
-                <Button onClick={()=>this.addOrder()} 
-                disabled={this.props.shoppingCarts.length>0?false:true} 
-                style={{marginTop:'10px',float:'right'}} type="primary">Order</Button>
+               
                 
 
             </div>

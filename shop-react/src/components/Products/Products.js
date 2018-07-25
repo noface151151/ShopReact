@@ -7,13 +7,13 @@ const products = (props)=>{
 
     return(
         <List
-            grid={{ gutter: 16, sm: 1, md: 2, lg: 3, xl: 4 }}
+            grid={{ gutter: 16, xs: 1, sm:2, md: 3, xl: 5 }}
             dataSource={props.products}
             renderItem={item => (
             <List.Item>
                 <Card
                     hoverable
-                    cover={<img alt="example" src={item.image} style={{minHeight:'300px'}} />}>
+                    cover={<img alt={item.name} src={item.image} style={{margin:'auto auto', width:'180px',height:'200px'}} />}>
                     <Meta
                     title={item.name}
                     description={'Price: '+ item.price}/>

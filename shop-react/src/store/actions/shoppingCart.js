@@ -26,3 +26,9 @@ export const ShoppingCart_Delete =(id)=>{
         id:id
     }
 }
+
+export const ShoppingCart_DeleteAll=()=>{
+    return{
+        type:actionTypes.SHOPPINGCART_DELETE_ALL
+    }
+}

@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Table, Input,InputNumber, Button, Popconfirm, Form } from 'antd';
+import { Table, Input,InputNumber, Button, Popconfirm, Form, Avatar } from 'antd';
 import  './ShoppingCartTable.css';
 
 const FormItem = Form.Item;
@@ -134,7 +134,7 @@ class ShoppingCartTable extends Component{
             title:'Image',
             dataIndex: 'image',
             align:'center',
-            render:(text,row,index)=><img src={text} style={{maxHeight:'100px',maxWidth:'100px'}} />
+            render:(text,row,index)=><Avatar size="large" src={text} />
         },{
             title:'Quantity',
             dataIndex:'quantity',
@@ -153,7 +153,7 @@ class ShoppingCartTable extends Component{
               this.props.datasource.length  > 0
                 ? (
                   <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
-                    <a href="javascript:;">Delete</a>
+                    <a>Delete</a>
                   </Popconfirm>
                 ) : null
             );
@@ -190,7 +190,14 @@ class ShoppingCartTable extends Component{
                 dataSource={this.props.datasource}
                 columns={columns}
                 title={() => 'Your Shopping Cart'}
-                footer={() => <div>Total: {this.props.totalPrice}</div>}
+                footer={() => 
+                            <div>
+                              Total: {this.props.totalPrice}
+                              <Button onClick={()=>this.props.addOrder()} 
+                                disabled={this.props.datasource.length>0?false:true} 
+                                style={{float:'right'}} type="primary">Order</Button>
+                            </div>
+                    }
             />
         )
     }

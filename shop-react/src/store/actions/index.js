@@ -1,7 +1,22 @@
-export {Product_GetList}  from './product';
+export {
+    Product_GetList
+}
+from './product';
 
-export{ShoppingCart_Add,ShoppingCart_Delete,ShoppingCart_Update} from './shoppingCart'
+export {
+    ShoppingCart_Add,
+    ShoppingCart_Delete,
+    ShoppingCart_Update,
+    ShoppingCart_DeleteAll
+}
+from './shoppingCart'
 
-export {Order_Add} from './orders';
+export {
+    Order_Add
+}
+from './orders';
 
-export {setSelectedKey} from './headerItem';
+export {
+    setSelectedKey
+}
+from './headerItem';

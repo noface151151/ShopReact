@@ -23,8 +23,8 @@ class HeaderComponent extends Component{
                 mode="horizontal"
                 defaultSelectedKeys={['0']}
                 style={{ lineHeight: '64px' }}
-                selectedKeys={this.props.itemSelected}
-                onSelect ={()=>this.setSelectKey}	
+                
+             	
             >
                 <Menu.Item key={0}> 
                     <NavLink exact={true} to="/" >Home</NavLink>
