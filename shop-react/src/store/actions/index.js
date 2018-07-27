@@ -20,3 +20,10 @@ export {
     setSelectedKey
 }
 from './headerItem';
+
+export{
+    auth,
+    logout,
+    setAuthRedirectPath,
+    authCheckState
+} from './auth.js';

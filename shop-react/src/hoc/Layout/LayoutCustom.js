@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Layout, Breadcrumb } from 'antd';
+import { Layout } from 'antd';
 
 import HeaderComponent from '../../components/UI/Header/Header';
 import FooterComponent from '../../components/UI/Footer/Footer';
@@ -28,7 +28,7 @@ class LayoutCustom extends Component{
                     return (
 
                         <Layout>
-                            <SiderComponent />
+                            <SiderComponent href={this.props.href}/>
                             <Layout>
                                 {ContentAndFooter} 
                             </Layout>
@@ -37,7 +37,7 @@ class LayoutCustom extends Component{
                 } else {
                     return(
                         <Layout>
-                            <HeaderComponent />  
+                            <HeaderComponent href={this.props.href}/>  
                             {ContentAndFooter}
                         </Layout>
                     ) 

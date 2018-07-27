@@ -17,5 +17,12 @@ export const ORDER_ADD_FAIL='ORDER_ADD_FAIL';
 //headerItem
 export const SET_SELECTED_KEY ='SET_SELECTED_KEY';
 
+//auth
+export const AUTH_START='AUTH_START';
+export const AUTH_SUCCESS='AUTH_SUCCESS';
+export const AUTH_FAILD='AUTH_FAILD';
+export const AUTH_LOGOUT='AUTH_LOGOUT';
+export const SET_AUTH_REDIRECT_PATH='SET_AUTH_REDIRECT_PATH';
+
 
 

@@ -1,5 +1,8 @@
 import React,{Component} from 'react';
-import { Table, Input,InputNumber, Button, Popconfirm, Form, Avatar } from 'antd';
+import { Table, Input,InputNumber, Button, Popconfirm, Form, Avatar,Modal } from 'antd';
+import {connect} from 'react-redux';
+import * as actions from '../../../store/actions/index';
+import CheckOutForm from '../../Orders/CheckOut/CheckOutForm';
 import  './ShoppingCartTable.css';
 
 const FormItem = Form.Item;
@@ -118,12 +121,34 @@ class EditableCell  extends Component{
 
 class ShoppingCartTable extends Component{
 
+  state={
+    visible:false,
+    loading:false
+  }
     handleSave = (row) => {
         this.props.updateQuantity(row.quantity,row.id);
     }
-
     handleDelete = (row) => {
       this.props.deleteShoppingCart(row.id);
+    }
+
+    //handle Modal
+    openModalHandle =()=>{
+      if(!this.props.isAuthenticated){
+        this.props.onSetAuthRedirectPath('/ShoppingCart');
+        this.props.onRedirectLogin();
+      }else{
+        this.setState({visible:true})
+      }
+
+    }
+    handleOrder = (ordersInfo) => {
+      this.setState({ loading: true });
+      this.props.addOrder(ordersInfo);
+      this.setState({visible:false,loading:false})
+    }
+    handleCancel = () => {
+      this.setState({ visible: false });
     }
 
     render(){
@@ -182,6 +207,8 @@ class ShoppingCartTable extends Component{
               }),
             };
           });
+
+        const WrappedCheckOutForm =  Form.create()(CheckOutForm);
         return(
             <Table
                 components={components}
@@ -193,14 +220,35 @@ class ShoppingCartTable extends Component{
                 footer={() => 
                             <div>
                               Total: {this.props.totalPrice}
-                              <Button onClick={()=>this.props.addOrder()} 
+                              <Button onClick={this.openModalHandle} 
                                 disabled={this.props.datasource.length>0?false:true} 
-                                style={{float:'right'}} type="primary">Order</Button>
+                                style={{float:'right'}} type="primary">{this.props.isAuthenticated?'Check out':'Login to continue checkout'}</Button>
+                                <Modal
+                                    visible={this.state.visible}
+                                    title="Check out"
+                              
+                                    onCancel={this.handleCancel}
+                                    footer={[
+                                        <Button key="back" onClick={this.handleCancel}>Cancel</Button>
+                                    ]}
+                                    >
+                                    <WrappedCheckOutForm handleOrder = {(orderInfo)=>{this.handleOrder(orderInfo)}}/>
+                                </Modal>
                             </div>
                     }
             />
         )
     }
 }
+const mapStateToProps=state=>{
+  return{
+      isAuthenticated:state.auth.token!==null
+  }
+}
 
-export default ShoppingCartTable
+const mapDispatchToProps=dispatch=>{
+  return{
+      onSetAuthRedirectPath:(path)=>dispatch(actions.setAuthRedirectPath(path))
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(ShoppingCartTable)

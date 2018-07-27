@@ -12,6 +12,7 @@ import productReducer from './store/reducers/product';
 import shoppingCartReducer from './store/reducers/shoppingCart';
 import orderReducer from './store/reducers/orders';
 import headerItemReducer from './store/reducers/headerItem';
+import authReducer from './store/reducers/auth';
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
@@ -19,7 +20,8 @@ const rootReducer=combineReducers({
     product:productReducer,
     shoppingCart:shoppingCartReducer,
     order:orderReducer,
-    headerItem:headerItemReducer
+    headerItem:headerItemReducer,
+    auth:authReducer
 })
 
 const store=createStore(rootReducer,composeEnhancers(

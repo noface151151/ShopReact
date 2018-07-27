@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
-import { Spin,Button } from 'antd';
+import { Spin } from 'antd';
 import ShoppingCartTable from '../../components/ShoppingCart/ShoppingCartTable/ShoppingCartTable';
 import * as action from '../../store/actions/index';
 class ShoppingCartContainer extends Component{
@@ -18,22 +18,26 @@ class ShoppingCartContainer extends Component{
         this.props.onDeleteShoppingCart(id);
     }
 
-    addOrder=()=>{
+    onRedirectLogin=()=>{
+        this.props.history.push('/LogIn');
+    }
+
+    addOrder=(orderInfo)=>{
         const orderData={
             productInfo:this.props.shoppingCarts,
+            orderInfo:{
+                name: orderInfo.name,
+                email:orderInfo.email,
+                address: orderInfo.address,
+                phone: orderInfo.phone
+            },
             totalQuantity:this.props.totalQuantity,
             totalPrice:this.props.totalPrice
         }
         this.props.onAddOrder(orderData);
 
     }
-    render(){
-        // let authRedirect= null;
-        // if(this.props.isComplete && !this.props.loading ){
-        //    // this.props.onSetSelectedItem(HeaderEnum['home']);
-        //     authRedirect=<Redirect to="/"/>
-        // }
-        
+    render(){        
         return(
             <div>
               
@@ -41,14 +45,11 @@ class ShoppingCartContainer extends Component{
                 <ShoppingCartTable 
                     updateQuantity={(quantity,id)=>this.updateQuantity(quantity,id)} 
                     deleteShoppingCart={(id)=>this.deleteShoppingCart(id)}
-                    addOrder = {()=>this.addOrder()}
+                    addOrder = {(orderInfo)=>this.addOrder(orderInfo)}
+                    onRedirectLogin={this.onRedirectLogin}
                     datasource={this.props.shoppingCarts} 
                     totalPrice={this.props.totalPrice}
                     totalQuantity={this.props.totalQuantity}/>
-                
-               
-                
-
             </div>
             
         )

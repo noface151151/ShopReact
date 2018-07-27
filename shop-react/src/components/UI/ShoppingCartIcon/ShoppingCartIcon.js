@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Badge, Icon,Button } from 'antd';
+import { Badge,Button } from 'antd';
 import {connect} from 'react-redux';
 
 
