@@ -38,7 +38,7 @@ class ProductContainer extends Component{
      }
 
     render(){
-         const antIcon = <Icon type="loading" style={{ fontSize: 100 }} spin />;
+        const antIcon = <Icon type="loading" style={{ fontSize: 100 }} spin />;
         let products=<Spin indicator={antIcon} />;
        
         if(!this.props.loading){

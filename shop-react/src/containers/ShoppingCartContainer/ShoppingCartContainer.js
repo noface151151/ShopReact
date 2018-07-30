@@ -10,7 +10,7 @@ class ShoppingCartContainer extends Component{
             return shoppingCart.id===id;
         })
         if(checkShoppingCart){
-            console.log(quantity);
+            //console.log(quantity);
             this.props.onUpdateShoppingCart(quantity,quantity*checkShoppingCart.price,checkShoppingCart.id) ; 
         }  
     }

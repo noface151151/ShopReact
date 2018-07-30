@@ -54,8 +54,11 @@ class HeaderComponent extends Component{
                     <Menu.Item key="/ShoppingCart" >
                         <NavLink  to="/ShoppingCart" >Shopping Cart</NavLink>
                     </Menu.Item >
+                    <Menu.Item key="/ProductAdmin" >
+                        <NavLink  to="/ProductAdmin" >Product Management</NavLink>
+                    </Menu.Item >
                     <Menu.Item key="/Logout"  >
-                    <NavLink  to="/Logout" >Logout</NavLink>
+                        <NavLink  to="/Logout" >Logout</NavLink>
                     </Menu.Item >
                     <Menu.Item key={5} style={{float:'right'}}> 
                         <ShoppingCartIcon />

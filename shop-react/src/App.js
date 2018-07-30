@@ -8,6 +8,7 @@ import ShoppingCart from './containers/ShoppingCartContainer/ShoppingCartContain
 import LoginContainer from './containers/Auth/LoginContainer';
 import RegisterContainer from './containers/Auth/RegisterContainer';
 import LogoutContainer from './containers/Auth/Logout';
+import ProductAdminContainer from './containers/admin/Products/Product';
 import * as actions from './store/actions/index';
 import './App.css';
 
@@ -23,6 +24,7 @@ class App extends Component {
     href=href[3]
    let router = (
         <Switch>
+          <Route path="/Home" exact component={ProductContainer} />
           <Route path="/ShoppingCart" component ={ShoppingCart} />
           <Route path="/LogIn" component ={LoginContainer} />
           <Route path="/Register" component ={RegisterContainer} />
@@ -33,10 +35,12 @@ class App extends Component {
     if(this.props.isAuthenticated){
       router=(
         <Switch>
+           <Route path="/Home" exact component={ProductContainer} />
           <Route path="/ShoppingCart" component ={ShoppingCart} />
           <Route path="/LogIn" component ={LoginContainer} />
           <Route path="/Register" component ={RegisterContainer} />
           <Route path="/Logout" component ={LogoutContainer} />
+          <Route path="/ProductAdmin" component ={ProductAdminContainer} />
           <Route path="/" exact component={ProductContainer} />
           <Redirect to="/"/>
         </Switch>

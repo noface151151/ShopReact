@@ -32,7 +32,8 @@ export const Product_GetList = () => {
                     if(resp.data[key]){
                         fetchedProducts.push({
                             ...resp.data[key],
-                            id: key
+                            id: key,
+                            key:key
                         });
                     }
                 }
