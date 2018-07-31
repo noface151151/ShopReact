@@ -62,7 +62,7 @@ class ProductAdminComponent extends Component {
                  <Button onClick={this.onCreateProduct} type="primary" style={{ marginBottom: 16 }}>
                     Add Product
                 </Button>
-                <Table dataSource={this.props.products} columns={columnsInit} />
+                <Table dataSource={this.props.products} columns={columnsInit} scroll={{ x: 500 }}/>
                 <DrawerFormComponent 
                     visible={this.state.visible} 
                     titleAction={this.state.titleAction} 

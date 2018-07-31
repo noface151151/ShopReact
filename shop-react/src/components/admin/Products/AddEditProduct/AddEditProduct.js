@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import { Drawer, Form, Button, Col, Row, Input,InputNumber } from 'antd';
-import Responsive from 'react-responsive';
 import UploadImage from '../../../UI/UploadImage/UploadImage';
+import {Desktop,Tablet,Mobile,Default} from '../../../../hoc/Responsive/Responsive'
 
 class AddEditProductForm extends Component{
     state = { imageUrl: null };
@@ -28,10 +28,10 @@ class AddEditProductForm extends Component{
       }
       render() {
         const { getFieldDecorator } = this.props.form;
-        let image = null;
-        if(this.state.imageUrl){
-          image= <img alt="example" src={this.state.imageUrl}/>;
-        }
+     //   let image = null;
+        // if(this.state.imageUrl){
+        //   image= <img style={{maxWidth:'250px', minWidth:'250px'}} alt="example" src={this.state.imageUrl}/>;
+        // }
         const form=(
           <div>
             <Form layout="vertical" hideRequiredMark>
@@ -54,7 +54,7 @@ class AddEditProductForm extends Component{
                 <Row gutter={16}>
                     <Col span={24}>
                         <UploadImage setImageUrl={(imageUrl)=>this.setImageUrl(imageUrl)}/>
-                        {image}
+                       
 
                     </Col>
                 </Row>
@@ -84,11 +84,6 @@ class AddEditProductForm extends Component{
           </div>
         </div>
         )
-        const Desktop = props => <Responsive {...props} minWidth={992} />;
-        const Tablet = props => <Responsive {...props} minWidth={768} maxWidth={991} />;
-        const Mobile = props => <Responsive {...props} maxWidth={767} />;
-        const Default = props => <Responsive {...props} minWidth={768} />;
-      
 
         return (
          <div>

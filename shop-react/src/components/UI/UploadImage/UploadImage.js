@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import { Upload, Button, Icon, message } from 'antd';
+import { Upload, Button, Icon, message,Row } from 'antd';
 import axios from 'axios';
 
 class UploadImage extends Component{
     state = {
         fileList: [],
         uploading: false,
+        image:null,
         CLOUDINARY_UPLOAD_PRESET : 'rm5cugae',
         CLOUDINARY_UPLOAD_URL : 'https://api.cloudinary.com/v1_1/productimage/image/upload'
       }
@@ -23,7 +24,6 @@ class UploadImage extends Component{
         });
         axios.post(this.state.CLOUDINARY_UPLOAD_URL,formData)
              .then(resp=>{
-                 console.log(resp.data.secure_url);
                 this.props.setImageUrl(resp.data.secure_url);
                 this.setState({
                     fileList: [],
@@ -45,6 +45,7 @@ class UploadImage extends Component{
               newFileList.splice(index, 1);
               return {
                 fileList: newFileList,
+                image:null
               };
             });
           },
@@ -52,27 +53,38 @@ class UploadImage extends Component{
             this.setState((fileList) => ({
               fileList: [...fileList, file],
             }));
+            this.setState({
+              image: URL.createObjectURL(file)
+            })
             return false;
           },
           fileList: this.state.fileList,
         };
-    
+        let image=null;
+        if(this.state.image){
+          image=<img style={{maxWidth:'250px', minWidth:'250px'}} alt="example" src={this.state.image}/>;
+        }
         return (
           <div>
-            <Upload {...props}>
-              <Button>
-                <Icon type="upload" /> Select File
+           <Row>
+            {image}
+           </Row>
+           <Row>
+              <Upload {...props}  style={{marginTop:'16px'}}>
+                <Button>
+                  <Icon type="upload" /> Select File
+                </Button>
+              </Upload>
+              <Button
+                style={{marginTop:'16px'}}
+                type="primary"
+                onClick={this.handleUpload}
+                disabled={this.state.fileList.length === 0}
+                loading={uploading}
+              >
+                {uploading ? 'Uploading' : 'Start Upload' }
               </Button>
-            </Upload>
-            <Button
-              style={{marginTop:'16px'}}
-              type="primary"
-              onClick={this.handleUpload}
-              disabled={this.state.fileList.length === 0}
-              loading={uploading}
-            >
-              {uploading ? 'Uploading' : 'Start Upload' }
-            </Button>
+            </Row>
           </div>
         );
       }
