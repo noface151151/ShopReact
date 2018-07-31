@@ -1,5 +1,7 @@
 export {
-    Product_GetList
+    Product_GetList,
+    Product_Add,
+    Product_Add_End
 }
 from './product';
 

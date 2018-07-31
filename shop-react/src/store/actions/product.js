@@ -45,3 +45,43 @@ export const Product_GetList = () => {
             })
     }
 }
+
+export const Product_Add_Start=()=>{
+    return{
+        type:actionTypes.PRODUCT_ADD_START
+    }
+}
+
+export const Product_Add_Fail=(error)=>{
+    return{
+        type:actionTypes.PRODUCT_ADD_FAIL,
+        error:error
+    }
+}
+
+export const Product_Add_Success=()=>{
+    return{
+        type:actionTypes.PRODUCT_ADD_SUCCESS
+    }
+}
+export const Product_Add_End=()=>{
+    return{
+        type:actionTypes.PRODUCT_ADD_END
+    }
+}
+
+export const Product_Add=(product)=>{
+    return dispatch => {
+        dispatch(Product_Add_Start());
+        axios
+            .post('/Products.json',product)
+            .then(resp => {
+                dispatch(Product_Add_Success());
+             //   dispatch(Product_GetList());
+            })
+            .catch(error=>{
+                console.log(error);
+                dispatch(Product_Add_Fail(error))
+            })
+    }
+}

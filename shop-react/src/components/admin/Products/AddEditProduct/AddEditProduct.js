@@ -1,37 +1,42 @@
 import React,{Component} from 'react';
-import { Drawer, Form, Button, Col, Row, Input,InputNumber } from 'antd';
+import { Drawer, Form, Button, Col, Row, Input,Spin,notification } from 'antd';
 import UploadImage from '../../../UI/UploadImage/UploadImage';
-import {Desktop,Tablet,Mobile,Default} from '../../../../hoc/Responsive/Responsive'
+import {Desktop,Tablet,Mobile,Default} from '../../../../hoc/Responsive/Responsive';
 
 class AddEditProductForm extends Component{
     state = { imageUrl: null };
-    
-    // componentWillMount(){
-    //     this.setState({visible:this.props.visible});
-    // }
-      // showDrawer = () => {
-      //   this.setState({
-      //     visible: true,
-      //   });
-      // };
-    
+
+   
+  
+      onSubmit=(e)=>{
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+          if (!err) {
+          //  console.log(this.state.imageUrl)
+            const product={
+              name:values.name,
+              price:values.price,
+              image:this.state.imageUrl
+            }
+         //   console.log(product);
+            this.props.AddProduct(product);
+            this.props.onClose();
+          }
+        });
+      }
       onClose = () => {
-        // this.setState(
-        //   {
-        //     visible: false,
-        //   }
-        // );
+      //  this.setState({visible:false})
         this.props.onClose();
       };
       setImageUrl=(imageUrl)=>{
         this.setState({imageUrl:imageUrl})
+      //  console.log(this.state.imageUrl)
       }
+     
       render() {
         const { getFieldDecorator } = this.props.form;
-     //   let image = null;
-        // if(this.state.imageUrl){
-        //   image= <img style={{maxWidth:'250px', minWidth:'250px'}} alt="example" src={this.state.imageUrl}/>;
-        // }
+        
+       
         const form=(
           <div>
             <Form layout="vertical" hideRequiredMark>
@@ -54,8 +59,6 @@ class AddEditProductForm extends Component{
                 <Row gutter={16}>
                     <Col span={24}>
                         <UploadImage setImageUrl={(imageUrl)=>this.setImageUrl(imageUrl)}/>
-                       
-
                     </Col>
                 </Row>
           </Form>
@@ -80,13 +83,14 @@ class AddEditProductForm extends Component{
             >
                 Cancel
             </Button>
-            <Button onClick={this.onClose} type="primary">Submit</Button>
+            <Button onClick={this.onSubmit} type="primary">Submit</Button>
           </div>
         </div>
         )
 
         return (
          <div>
+           <Spin spinning={this.props.loadingAddEdit}> </Spin>
            <Desktop>
                 <Drawer
                       title={this.props.titleAction}
