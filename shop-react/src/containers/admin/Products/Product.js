@@ -6,16 +6,17 @@ const mapStateToProps=state=>{
     return{
         products:state.product.products,
         loading:state.product.loading,
-        isSuccess:state.product.isSuccess,
-        loadingAddEdit:state.product.loadingAddEdit
+        productSelected:state.product.productSelected
+     //   isSuccess:state.product.isSuccess,
+    //    loadingAddEdit:state.product.loadingAddEdit
     }
 }
 
 const mapDispatchToProps=dispatch=>{
     return{
         onFetchProducts:()=>dispatch(actions.Product_GetList()),
-        onAddProduct:(product)=>dispatch(actions.Product_Add(product)),
-        onAddProductEnd:()=>dispatch(actions.Product_Add_End())
+        onSelectedProduct:(product)=>dispatch(actions.Product_Selected(product)),
+     //   onAddProductEnd:()=>dispatch(actions.Product_Add_End())
     }
 }
 

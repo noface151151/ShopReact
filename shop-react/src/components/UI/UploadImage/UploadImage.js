@@ -38,6 +38,7 @@ class UploadImage extends Component{
         const { uploading } = this.state;
         const props = {
           action: this.state.CLOUDINARY_UPLOAD_URL,
+        
           onRemove: (file) => {
             this.setState(({ fileList }) => {
               const index = fileList.indexOf(file);
@@ -61,8 +62,14 @@ class UploadImage extends Component{
           fileList: this.state.fileList,
         };
         let image=null;
-        if(this.state.image){
-          image=<img style={{maxWidth:'250px', minWidth:'250px'}} alt="example" src={this.state.image}/>;
+        let imageUrl=null;
+        if(this.props.imageUrlSelected!==null){
+          imageUrl=this.props.imageUrlSelected;
+        }else{
+          imageUrl=this.state.image;
+        }
+        if(imageUrl){
+          image=<img style={{maxWidth:'250px', minWidth:'250px'}} alt="example" src={imageUrl}/>;
         }
         return (
           <div>
@@ -71,7 +78,7 @@ class UploadImage extends Component{
            </Row>
            <Row>
               <Upload {...props}  style={{marginTop:'16px'}}>
-                <Button>
+                <Button   disabled ={this.props.imageUrlSelected!==null}>
                   <Icon type="upload" /> Select File
                 </Button>
               </Upload>
@@ -89,5 +96,7 @@ class UploadImage extends Component{
         );
       }
 }
+
+
 
 export default UploadImage;

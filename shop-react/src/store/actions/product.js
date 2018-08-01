@@ -70,6 +70,13 @@ export const Product_Add_End=()=>{
     }
 }
 
+export const Product_Selected=(product)=>{
+    return{
+        type:actionTypes.PRODUCT_SELECTED,
+        product:product
+    }
+}
+
 export const Product_Add=(product)=>{
     return dispatch => {
         dispatch(Product_Add_Start());
@@ -82,6 +89,47 @@ export const Product_Add=(product)=>{
             .catch(error=>{
                 console.log(error);
                 dispatch(Product_Add_Fail(error))
+            })
+    }
+}
+
+export const Product_Update_Start=()=>{
+    return{
+        type:actionTypes.PRODUCT_ADD_START
+    }
+}
+
+export const Product_Update_Fail=(error)=>{
+    return{
+        type:actionTypes.PRODUCT_ADD_FAIL,
+        error:error
+    }
+}
+
+export const Product_Update_Success=()=>{
+    return{
+        type:actionTypes.PRODUCT_ADD_SUCCESS
+    }
+}
+export const Product_Update_End=()=>{
+    return{
+        type:actionTypes.PRODUCT_ADD_END
+    }
+}
+
+export const Product_Update=(product)=>{
+    return dispatch => {
+        console.log(product)
+        dispatch(Product_Update_Start());
+        axios
+            .put('/Products/'+product.id+'.json/',product)
+            .then(resp => {
+                dispatch(Product_Update_Success());
+             //   dispatch(Product_GetList());
+            })
+            .catch(error=>{
+                console.log(error);
+                dispatch(Product_Update_Fail(error))
             })
     }
 }

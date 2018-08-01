@@ -1,42 +1,64 @@
 import React,{Component} from 'react';
 import { Drawer, Form, Button, Col, Row, Input,Spin,notification } from 'antd';
+import {connect} from 'react-redux';
+
+import * as actions from '../../../../store/actions/index';
 import UploadImage from '../../../UI/UploadImage/UploadImage';
 import {Desktop,Tablet,Mobile,Default} from '../../../../hoc/Responsive/Responsive';
 
 class AddEditProductForm extends Component{
     state = { imageUrl: null };
 
-   
-  
+    componentWillUpdate(nextProps,nextState){
+      if(nextProps.isSuccess){
+        this.props.onClose();
+        this.OpenNotification();
+        if(this.props.IsCreate){
+          this.props.onAddProductEnd();
+        }else{
+          this.props.onUpdateProductEnd();
+        }
+        this.props.onFetchProducts();
+      }
+    }
+    OpenNotification = () => {
+      notification.success({
+        message: this.props.IsCreate?'Add Product Success!' : 'Update Product Success!',
+       // description: 'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+      //  onClose: this.CloseNotify()
+      });  
+  };
       onSubmit=(e)=>{
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
           if (!err) {
-          //  console.log(this.state.imageUrl)
             const product={
               name:values.name,
               price:values.price,
-              image:this.state.imageUrl
+              image:this.props.IsCreate?this.state.imageUrl:this.props.productSelected.image,
+              id:this.props.IsCreate?null:this.props.productSelected.id
             }
-         //   console.log(product);
-            this.props.AddProduct(product);
-            this.props.onClose();
+            if(this.props.IsCreate){
+              this.props.onAddProduct(product);
+            }else{
+              this.props.onUpdateProduct(product)
+            }
           }
         });
       }
       onClose = () => {
-      //  this.setState({visible:false})
         this.props.onClose();
       };
       setImageUrl=(imageUrl)=>{
         this.setState({imageUrl:imageUrl})
-      //  console.log(this.state.imageUrl)
       }
-     
+      
       render() {
         const { getFieldDecorator } = this.props.form;
-        
-       
+        let imageUrlSelected = null;
+        if(this.props.productSelected!==null){
+          imageUrlSelected=this.props.productSelected.image
+        }
         const form=(
           <div>
             <Form layout="vertical" hideRequiredMark>
@@ -58,7 +80,8 @@ class AddEditProductForm extends Component{
                 </Row>
                 <Row gutter={16}>
                     <Col span={24}>
-                        <UploadImage setImageUrl={(imageUrl)=>this.setImageUrl(imageUrl)}/>
+                        <UploadImage imageUrlSelected={imageUrlSelected}
+                         setImageUrl={(imageUrl)=>this.setImageUrl(imageUrl)}/>
                     </Col>
                 </Row>
           </Form>
@@ -160,4 +183,23 @@ class AddEditProductForm extends Component{
       }
 
 }
-export default AddEditProductForm;
+
+const mapStateToProps=state=>{
+  return{
+      isSuccess:state.product.isSuccess,
+      loadingAddEdit:state.product.loadingAddEdit,
+      productSelected:state.product.productSelected
+  }
+}
+
+const mapDispatchToProps=dispatch=>{
+  return{
+      onAddProduct:(product)=>dispatch(actions.Product_Add(product)),
+      onAddProductEnd:()=>dispatch(actions.Product_Add_End()),
+      onFetchProducts:()=>dispatch(actions.Product_GetList()),
+      onUpdateProduct:(product)=>dispatch(actions.Product_Update(product)),
+      onUpdateProductEnd:()=>dispatch(actions.Product_Update_End())
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(AddEditProductForm);
