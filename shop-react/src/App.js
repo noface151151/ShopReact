@@ -3,15 +3,34 @@ import {Route,Switch,withRouter,Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import LayoutCustom from './hoc/Layout/LayoutCustom';
-import ProductContainer from './containers/ProductContainer/ProductContainer';
-import ShoppingCart from './containers/ShoppingCartContainer/ShoppingCartContainer';
-import LoginContainer from './containers/Auth/LoginContainer';
-import RegisterContainer from './containers/Auth/RegisterContainer';
+//import ProductContainer from './containers/ProductContainer/ProductContainer';
+//import ShoppingCart from './containers/ShoppingCartContainer/ShoppingCartContainer';
+//import LoginContainer from './containers/Auth/LoginContainer';
+//import RegisterContainer from './containers/Auth/RegisterContainer';
 import LogoutContainer from './containers/Auth/Logout';
-import ProductAdminContainer from './containers/admin/Products/Product';
+//import ProductAdminContainer from './containers/admin/Products/Product';
 import * as actions from './store/actions/index';
+import asyncComponent from './hoc/asyncComponent/asyncComponent';
 import './App.css';
 
+const asyncHome=asyncComponent(()=>{
+  return import('./containers/ProductContainer/ProductContainer')
+})
+const asyncShoppingCart=asyncComponent(()=>{
+  return import('./containers/ShoppingCartContainer/ShoppingCartContainer')
+})
+const asyncLogin=asyncComponent(()=>{
+  return import('./containers/Auth/LoginContainer')
+})
+const asyncRegister=asyncComponent(()=>{
+  return import('./containers/Auth/RegisterContainer')
+})
+// const asyncLogout=asyncComponent(()=>{
+//   return import('./containers/Auth/Logout')
+// })
+const asyncProductAdmin=asyncComponent(()=>{
+  return import('./containers/admin/Products/Product')
+})
 
 class App extends Component {
 
@@ -24,24 +43,24 @@ class App extends Component {
     href=href[3]
    let router = (
         <Switch>
-          <Route path="/Home" exact component={ProductContainer} />
-          <Route path="/ShoppingCart" component ={ShoppingCart} />
-          <Route path="/LogIn" component ={LoginContainer} />
-          <Route path="/Register" component ={RegisterContainer} />
-          <Route path="/" exact component={ProductContainer} />
+          <Route path="/Home" exact component={asyncHome} />
+          <Route path="/ShoppingCart" component ={asyncShoppingCart} />
+          <Route path="/LogIn" component ={asyncLogin} />
+          <Route path="/Register" component ={asyncRegister} />
+          <Route path="/" exact component={asyncHome} />
           <Redirect to="/"/>
         </Switch>
    )
     if(this.props.isAuthenticated){
       router=(
         <Switch>
-           <Route path="/Home" exact component={ProductContainer} />
-          <Route path="/ShoppingCart" component ={ShoppingCart} />
-          <Route path="/LogIn" component ={LoginContainer} />
-          <Route path="/Register" component ={RegisterContainer} />
+           <Route path="/Home" exact component={asyncHome} />
+          <Route path="/ShoppingCart" component ={asyncShoppingCart} />
+          <Route path="/LogIn" component ={asyncLogin} />
+          <Route path="/Register" component ={asyncRegister} />
           <Route path="/Logout" component ={LogoutContainer} />
-          <Route path="/ProductAdmin" component ={ProductAdminContainer} />
-          <Route path="/" exact component={ProductContainer} />
+          <Route path="/ProductAdmin" component ={asyncProductAdmin} />
+          <Route path="/" exact component={asyncHome} />
           <Redirect to="/"/>
         </Switch>
       )

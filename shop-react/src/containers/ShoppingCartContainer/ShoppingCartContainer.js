@@ -1,8 +1,10 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import { Spin } from 'antd';
+import axios from 'axios';
 import ShoppingCartTable from '../../components/ShoppingCart/ShoppingCartTable/ShoppingCartTable';
 import * as action from '../../store/actions/index';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorhandler';
 class ShoppingCartContainer extends Component{
 
     updateQuantity=(quantity,id)=>{
@@ -75,4 +77,4 @@ const mapDispatchToProps=dispatch=>{
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(ShoppingCartContainer);
+export default connect(mapStateToProps,mapDispatchToProps)(withErrorHandler(ShoppingCartContainer,axios));

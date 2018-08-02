@@ -27,6 +27,7 @@ export const Product_GetList = () => {
         axios
             .get('/Products.json')
             .then(resp => {
+                console.log(resp);
                 const fetchedProducts = [];
                 for (let key in resp.data) {
                     if(resp.data[key]){
@@ -40,7 +41,7 @@ export const Product_GetList = () => {
                 dispatch(Product_GetList_Success(fetchedProducts));
             })
             .catch(error=>{
-                console.log(error);
+              
                 dispatch(Product_GetList_Fail(error))
             })
     }

@@ -24,8 +24,6 @@ class AddEditProductForm extends Component{
     OpenNotification = () => {
       notification.success({
         message: this.props.IsCreate?'Add Product Success!' : 'Update Product Success!',
-       // description: 'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-      //  onClose: this.CloseNotify()
       });  
   };
       onSubmit=(e)=>{
