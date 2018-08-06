@@ -43,7 +43,9 @@ const reducer = (state = initState, action) => {
             }
         case actionTypes.SHOPPINGCART_DELETE:
             const shoppingCartsNew = [...state.shoppingCarts];
+            console.log(action.id)
             shoppingCartsNew.splice(action.id, 1);
+            console.log(shoppingCartsNew)
             return {
                 ...state,
                 products: action.products,

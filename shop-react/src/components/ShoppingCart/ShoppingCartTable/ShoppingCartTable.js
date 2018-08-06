@@ -129,6 +129,7 @@ class ShoppingCartTable extends Component{
         this.props.updateQuantity(row.quantity,row.id);
     }
     handleDelete = (row) => {
+      console.log(row.id)
       this.props.deleteShoppingCart(row.id);
     }
 
@@ -177,7 +178,7 @@ class ShoppingCartTable extends Component{
             return (
               this.props.datasource.length  > 0
                 ? (
-                  <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
+                  <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record)}>
                     <a>Delete</a>
                   </Popconfirm>
                 ) : null

@@ -21,15 +21,15 @@ class ProductContainer extends Component{
                 return shoppingCart.productId===product.id;
             })
             if(checkShoppingCart){
-                this.props.onUpdateShoppingCart(checkShoppingCart.quantity+1,checkShoppingCart.totalPrice+product.price,checkShoppingCart.id) ;   
+                this.props.onUpdateShoppingCart(checkShoppingCart.quantity+1,Number(checkShoppingCart.totalPrice)+Number(product.price),checkShoppingCart.id) ;   
             }else{
                 const newId = this.props.shoppingCarts.length;
                 const shoppingCart={
                     productId:product.id,
                     name:product.name,
                     quantity:1,
-                    price:product.price,
-                    totalPrice:product.price,
+                    price:Number(product.price),
+                    totalPrice:Number(product.price),
                     image:product.image
                 }
                this.props.onAddShoppingCart(shoppingCart,newId);
