@@ -72,4 +72,4 @@ const mapDispatchToProps=dispatch=>{
     }
 }
 
-export default  connect(mapStateToProps,mapDispatchToProps)(withErrorHandler(ProductContainer,axios));
+export default  connect(mapStateToProps,mapDispatchToProps)(ProductContainer);

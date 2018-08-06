@@ -41,6 +41,7 @@ class ProductAdminComponent extends Component {
        this.setState({titleAction:'Edit',visible:true,IsCreate:false})
     }
     onClose = () => {
+        console.log('Vào')
         this.setState(
           {
             visible: false,

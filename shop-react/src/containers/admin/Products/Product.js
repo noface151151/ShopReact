@@ -23,6 +23,6 @@ const mapDispatchToProps=dispatch=>{
 }
 
 
-const ProductAdminContainer= connect(mapStateToProps,mapDispatchToProps)(withErrorHandler(ProductAdminComponent,axios));
+const ProductAdminContainer= connect(mapStateToProps,mapDispatchToProps)(ProductAdminComponent);
 export default ProductAdminContainer;
 
