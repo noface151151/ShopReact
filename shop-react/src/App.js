@@ -39,9 +39,12 @@ class App extends Component {
   }
 
   render() {
-    let href=window.location.href.split('/')
-    href=href[3]
-   let router = (
+    let href=window.location.href.split('/');
+    href=href[3];
+
+    let router = null;
+     if(!this.props.isAuthenticated){
+      router = (
         <Switch>
           <Route path="/Home" exact component={asyncHome} />
           <Route path="/ShoppingCart" component ={asyncShoppingCart} />
@@ -50,8 +53,8 @@ class App extends Component {
           <Route path="/" exact component={asyncHome} />
           <Redirect to="/"/>
         </Switch>
-   )
-    if(this.props.isAuthenticated){
+      )
+     }else{ 
       router=(
         <Switch>
            <Route path="/Home" exact component={asyncHome} />
