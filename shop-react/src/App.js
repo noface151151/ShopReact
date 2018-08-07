@@ -64,7 +64,7 @@ class App extends Component {
           <Route path="/ProductAdmin" component ={asyncProductAdmin} />
           <Route path="/Logout" component ={LogoutContainer} />
           <Route path="/" exact component={asyncHome} />
-     
+          <Redirect to="/"/>
         </Switch>
       )
     }
