@@ -9,6 +9,7 @@ import LayoutCustom from './hoc/Layout/LayoutCustom';
 //import RegisterContainer from './containers/Auth/RegisterContainer';
 import LogoutContainer from './containers/Auth/Logout';
 //import ProductAdminContainer from './containers/admin/Products/Product';
+//import ProductAdminComponent from './components/admin/Products/Product';
 import * as actions from './store/actions/index';
 import asyncComponent from './hoc/asyncComponent/asyncComponent';
 import './App.css';
@@ -55,19 +56,19 @@ class App extends Component {
         </Switch>
       )
      }else{ 
+      
       router=(
         <Switch>
-           <Route path="/Home" exact component={asyncHome} />
+          <Route path="/Home" exact component={asyncHome} />
           <Route path="/ShoppingCart" component ={asyncShoppingCart} />
-          <Route path="/LogIn" component ={asyncLogin} />
-          <Route path="/Register" component ={asyncRegister} />
-          <Route path="/Logout" component ={LogoutContainer} />
           <Route path="/ProductAdmin" component ={asyncProductAdmin} />
+          <Route path="/Logout" component ={LogoutContainer} />
           <Route path="/" exact component={asyncHome} />
-          <Redirect to="/"/>
+     
         </Switch>
       )
     }
+    console.log(this.props.isAuthenticated)
     return (
       <div className="App">
          <LayoutCustom href={href}>

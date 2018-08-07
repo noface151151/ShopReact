@@ -15,7 +15,7 @@ class ProductAdminComponent extends Component {
     // }
     componentDidMount(){
       //  console.log('componentDidMount Table')
-        this.props.onFetchProducts();
+     //   this.props.onFetchProducts();
     }
     // componentDidUpdate(prevProps, prevState) {
     //     console.log('componentDidUpdate Table')
@@ -41,7 +41,6 @@ class ProductAdminComponent extends Component {
        this.setState({titleAction:'Edit',visible:true,IsCreate:false})
     }
     onClose = () => {
-        console.log('Vào')
         this.setState(
           {
             visible: false,

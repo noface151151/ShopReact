@@ -1,8 +1,6 @@
-import {connect} from 'react-redux';
-import axios from 'axios';
 import ProductAdminComponent from '../../../components/admin/Products/Product';
+import {connect} from 'react-redux';
 import * as actions from '../../../store/actions/index';
-import withErrorHandler from '../../../hoc/withErrorHandler/withErrorhandler';
 
 const mapStateToProps=state=>{
     return{
