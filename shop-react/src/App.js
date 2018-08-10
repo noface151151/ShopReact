@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Route,Switch,withRouter,Redirect} from 'react-router-dom'; 
-import {connect} from 'react-redux';
+//import {connect} from 'react-redux';
 
 import LayoutCustom from './hoc/Layout/LayoutCustom';
 //import ProductContainer from './containers/ProductContainer/ProductContainer';
@@ -10,8 +10,9 @@ import LayoutCustom from './hoc/Layout/LayoutCustom';
 import LogoutContainer from './containers/Auth/Logout';
 //import ProductAdminContainer from './containers/admin/Products/Product';
 //import ProductAdminComponent from './components/admin/Products/Product';
-import * as actions from './store/actions/index';
+
 import asyncComponent from './hoc/asyncComponent/asyncComponent';
+import requiredAuthComponent from './hoc/requiredAuth/requiredAuth';
 import './App.css';
 
 const asyncHome=asyncComponent(()=>{
@@ -35,59 +36,41 @@ const asyncProductAdmin=asyncComponent(()=>{
 
 class App extends Component {
 
-  componentDidMount(){
-    this.props.onTryAutoLogin();
-  }
+  // componentDidMount(){
+  //   this.props.onTryAutoLogin();
+  // }
 
   render() {
     let href=window.location.href.split('/');
     href=href[3];
-
-    let router = null;
-     if(!this.props.isAuthenticated){
-      router = (
-        <Switch>
-          <Route path="/Home" exact component={asyncHome} />
-          <Route path="/ShoppingCart" component ={asyncShoppingCart} />
-          <Route path="/LogIn" component ={asyncLogin} />
-          <Route path="/Register" component ={asyncRegister} />
-          <Route path="/" exact component={asyncHome} />
-          <Redirect to="/"/>
-        </Switch>
-      )
-     }else{ 
-      
-      router=(
-        <Switch>
-          <Route path="/Home" exact component={asyncHome} />
-          <Route path="/ShoppingCart" component ={asyncShoppingCart} />
-          <Route path="/ProductAdmin" component ={asyncProductAdmin} />
-          <Route path="/Logout" component ={LogoutContainer} />
-          <Route path="/" exact component={asyncHome} />
-          <Redirect to="/"/>
-        </Switch>
-      )
-    }
-    console.log(this.props.isAuthenticated)
     return (
       <div className="App">
          <LayoutCustom href={href}>
-          {router}
+          <Switch>
+              <Route path="/Home" exact component={asyncHome} />
+              <Route path="/ShoppingCart" component ={asyncShoppingCart} />
+              <Route path="/LogIn" component ={asyncLogin} />
+              <Route path="/Logout" component ={LogoutContainer} />
+              <Route path="/Register" component ={asyncRegister} />
+              <Route path="/ProductAdmin" component ={requiredAuthComponent(asyncProductAdmin)} />
+              <Route path="/" exact component={asyncHome} />
+              <Redirect to="/"/>
+          </Switch>
           </LayoutCustom>
       </div>
     );
   }
 }
-const mapStateToProps = state =>{
-  return{
-    isAuthenticated:state.auth.token!==null
-  }
-}
+// const mapStateToProps = state =>{
+//   return{
+//     isAuthenticated:state.auth.token!==null
+//   }
+// }
 
-const mapDispatchToProps =dispatch=>{
-  return {
-    onTryAutoLogin:()=>dispatch(actions.authCheckState())
-  }
-} 
+// const mapDispatchToProps =dispatch=>{
+//   return {
+//     onTryAutoLogin:()=>dispatch(actions.authCheckState())
+//   }
+// } 
 
-export default  withRouter(connect(mapStateToProps,mapDispatchToProps)(App));
+export default  withRouter(App);

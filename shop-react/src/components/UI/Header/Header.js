@@ -1,17 +1,14 @@
 import React, {Component} from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu,Icon } from 'antd';
 import {NavLink} from 'react-router-dom';
-import {connect} from 'react-redux';
+
 import ShoppingCartIcon from '../ShoppingCartIcon/ShoppingCartIcon';
+import requiredAuthComponent from '../../../hoc/requiredAuth/requiredAuth';
 
-
+const {SubMenu } = Menu;
 const  Header = Layout.Header;
 
 class HeaderComponent extends Component{
-
-    setSelectKey=({ item, key, selectedKeys })=>{
-        this.props.onSetSelectedItem(key);
-    }
 
     render(){
         let MenuItems=(
@@ -74,10 +71,5 @@ class HeaderComponent extends Component{
         )
     }
 }
-const mapStateToProps=state=>{
-    return{
-        isAuthenticated:state.auth.token!==null
-    }
-}
 
-export default connect(mapStateToProps,null)(HeaderComponent)
+export default requiredAuthComponent(HeaderComponent);

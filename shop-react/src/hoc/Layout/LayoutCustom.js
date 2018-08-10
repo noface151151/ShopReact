@@ -1,10 +1,11 @@
 import React,{Component} from 'react';
 import { Layout } from 'antd';
+import MediaQuery from 'react-responsive';
 
 import HeaderComponent from '../../components/UI/Header/Header';
 import FooterComponent from '../../components/UI/Footer/Footer';
 import SiderComponent from '../../components/UI/Sider/Sider';
-import MediaQuery from 'react-responsive';
+
 const {  Content } = Layout;
 
 class LayoutCustom extends Component{
