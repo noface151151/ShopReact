@@ -27,7 +27,7 @@ export const Product_GetList = () => {
         axios
             .get('/Products.json')
             .then(resp => {
-                console.log(resp);
+              //  console.log(resp);
                 const fetchedProducts = [];
                 for (let key in resp.data) {
                     if(resp.data[key]){

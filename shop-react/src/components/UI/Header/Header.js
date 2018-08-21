@@ -1,75 +1,69 @@
-import React, {Component} from 'react';
-import { Layout, Menu,Icon } from 'antd';
-import {NavLink} from 'react-router-dom';
+import React, { Component } from "react";
+import { Layout, Menu } from "antd";
+import { NavLink } from "react-router-dom";
 
-import ShoppingCartIcon from '../ShoppingCartIcon/ShoppingCartIcon';
-import requiredAuthComponent from '../../../hoc/requiredAuth/requiredAuth';
+import ShoppingCartIcon from "../ShoppingCartIcon/ShoppingCartIcon";
+import requiredAuthComponent from "../../../hoc/requiredAuth/requiredAuth";
+import MenuItemsConfig from "../../../shared/ConfigMenu";
+import AutoCompleteCustom from "../AutoComplete/AutoComplete";
 
-const {SubMenu } = Menu;
-const  Header = Layout.Header;
+const Header = Layout.Header;
 
-class HeaderComponent extends Component{
-
-    render(){
-        let MenuItems=(
-            <Menu
-            theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={['/'+this.props.href]}
-            selectedKeys={['/'+this.props.href]}
-            style={{ lineHeight: '64px' }}
-            >
-                <Menu.Item key="/"> 
-                    <NavLink exact={true} to="/" >Home</NavLink>
-                </Menu.Item >
-                <Menu.Item key="/ShoppingCart" >
-                    <NavLink  to="/ShoppingCart" >Shopping Cart</NavLink>
-                </Menu.Item >
-                <Menu.Item key="/LogIn" >
-                    <NavLink  to="/LogIn" >Login</NavLink>
-                </Menu.Item >
-                <Menu.Item key="/Register" >
-                    <NavLink  to="/Register" >Register</NavLink>
-                </Menu.Item >
-                <Menu.Item key={5} style={{float:'right'}}> 
-                    <ShoppingCartIcon />
-                </Menu.Item >
-            </Menu>
-        )
-        if(this.props.isAuthenticated){
-            MenuItems=(
-                <Menu
-                theme="dark"
-                mode="horizontal"
-                defaultSelectedKeys={['/'+this.props.href]}
-                selectedKeys={['/'+this.props.href]}
-                style={{ lineHeight: '64px' }}
-                >
-                    <Menu.Item key="/"> 
-                        <NavLink exact={true} to="/" >Home</NavLink>
-                    </Menu.Item >
-                    <Menu.Item key="/ShoppingCart" >
-                        <NavLink  to="/ShoppingCart" >Shopping Cart</NavLink>
-                    </Menu.Item >
-                    <Menu.Item key="/ProductAdmin" >
-                        <NavLink  to="/ProductAdmin" >Product Management</NavLink>
-                    </Menu.Item >
-                    <Menu.Item key="/Logout"  >
-                        <NavLink  to="/Logout" >Logout</NavLink>
-                    </Menu.Item >
-                    <Menu.Item key={5} style={{float:'right'}}> 
-                        <ShoppingCartIcon />
-                    </Menu.Item >
-                </Menu>
-            )
-        }
-        return(
-            <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-                <div className="logo" />
-                {MenuItems}
-            </Header>
-        )
+class HeaderComponent extends Component {
+  render() {
+    const menuItemsFillter = MenuItemsConfig.filter(el => {
+      if (this.props.isAuthenticated) {
+        return el.showAuth === true;
+      }
+      return el.isRequiredAuth === false;
+    }).map(val => (
+      <Menu.Item key={val.path}>
+        <NavLink exact={val.isExact} to={val.path}>
+          {val.itemName}
+        </NavLink>
+      </Menu.Item>
+    ));
+    let menuDataSource = [];
+    const MenuItemsFilter = MenuItemsConfig.filter(el => {
+      if (this.props.isAuthenticated) {
+        return el.showAuth === true;
+      }
+      return el.isRequiredAuth === false;
+    });
+   // console.log(MenuItemsFilter);
+    for (let i = 0; i < MenuItemsFilter.length; i++) {
+      const val = MenuItemsFilter[i];
+      const item = {
+        id: val.path,
+        name: val.itemName,
+        value: val.path,
+        isExact: val.isExact
+      };
+      menuDataSource.push(item);
     }
+    const { href } = this.props;
+    const hrefFix = href.split("/")[3];
+    return (
+      <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
+        <div className="logo" />
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          defaultSelectedKeys={["/" + hrefFix]}
+          selectedKeys={["/" + hrefFix]}
+          style={{ lineHeight: "64px" }}
+        >
+          {menuItemsFillter}
+          <Menu.Item key={5}>
+            <AutoCompleteCustom dataSource={menuDataSource} />
+          </Menu.Item>
+          <Menu.Item key={6} style={{ float: "right" }}>
+            <ShoppingCartIcon />
+          </Menu.Item>
+        </Menu>
+      </Header>
+    );
+  }
 }
 
 export default requiredAuthComponent(HeaderComponent);

@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Table, Input, Button, Popconfirm, Form } from 'antd';
+import {  Input,InputNumber, Form } from 'antd';
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
@@ -9,7 +9,7 @@ const EditableRow = ({ form, index, ...props }) => (
     </EditableContext.Provider>
   );
 
-  const EditableFormRow = Form.create()(EditableRow);
+const EditableFormRow = Form.create()(EditableRow);
 
 class EditableCell  extends Component{
 
@@ -56,6 +56,18 @@ class EditableCell  extends Component{
       });
     }
 
+    getInput = () => {
+      if (this.props.inputType === "number") {
+        return (
+          <InputNumber
+            ref={node => (this.input = node)}
+            onPressEnter={this.save}
+          />
+        );
+      }
+      return <Input ref={node => (this.input = node)} onPressEnter={this.save} />;
+    };
+
     render(){
       const { editing } = this.state;
       const {
@@ -65,7 +77,8 @@ class EditableCell  extends Component{
         record,
         index,
         handleSave,
-        ...restProps
+        inputType,
+        ...restProps,
       }= this.props;
 
       return (
@@ -83,12 +96,7 @@ class EditableCell  extends Component{
                           message: `${title} is required.`,
                         }],
                         initialValue: record[dataIndex],
-                      })(
-                        <Input
-                          ref={node => (this.input = node)}
-                          onPressEnter={this.save}
-                        />
-                      )}
+                      })(this.getInput())}
                     </FormItem>
                   ) : (
                     <div
@@ -109,4 +117,4 @@ class EditableCell  extends Component{
 
 }
 
-export default EditableCell;
+export {EditableCell,EditableFormRow } ;

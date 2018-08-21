@@ -1,4 +1,4 @@
-import {Modal,Button} from 'antd';
+import {Modal} from 'antd';
 import React,{Component} from 'react';
 import Wrap from '../Wrap/Wrap';
 const withErrorHandler =(WrappedComponent,axios)=>{

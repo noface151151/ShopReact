@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Upload, Button, Icon, message,Row } from 'antd';
+import { Upload, Button, Icon,Row } from 'antd';
 import axios from 'axios';
 
 class UploadImage extends Component{

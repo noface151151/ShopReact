@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Table, Avatar, Icon, Spin, Form, Button } from "antd";
-import axios from "../../../axios-order";
 import AddEditProductForm from "../Products/AddEditProduct/AddEditProduct";
 
 class ProductAdminComponent extends Component {

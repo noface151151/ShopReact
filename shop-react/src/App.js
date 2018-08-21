@@ -41,8 +41,10 @@ class App extends Component {
   // }
 
   render() {
-    let href=window.location.href.split('/');
-    href=href[3];
+    let href=window.location.href;
+    // console.log(href);
+    // href=href[3];
+    // console.log(href);
     return (
       <div className="App">
          <LayoutCustom href={href}>

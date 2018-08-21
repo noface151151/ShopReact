@@ -1,10 +1,7 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import { Spin, Icon } from 'antd';
-
 import Products from '../../components/Products/Products';
-import withErrorHandler from '../../hoc/withErrorHandler/withErrorhandler';
-import axios from '../../axios-order';
 import * as  action from '../../store/actions/index';
 
 

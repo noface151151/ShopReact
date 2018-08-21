@@ -7,12 +7,14 @@ const { Sider } = Layout;
 class SiderComponent extends Component{
 
     render(){
+        const {href} = this.props;
+        const hrefFix = href.split('/')[3]
         let MenuItems=(
             <Menu
             theme="dark"
             mode="horizontal"
-            defaultSelectedKeys={['/'+this.props.href]}
-            selectedKeys={['/'+this.props.href]}
+            defaultSelectedKeys={['/'+hrefFix]}
+            selectedKeys={['/'+hrefFix]}
             style={{ lineHeight: '64px' }}
             >
                 <Menu.Item key="/"> 
